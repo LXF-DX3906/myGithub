@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Search Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<meta http-equiv='cache-control' content="no-cache, must-revalidate, post-check=0, pre-check=0">
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+</head>
+
+<body style="background: white;">
+    
+    <!--Theme-->
+    <div class="navbar">
+        <center>
+        <div class="navbar-inner">
+            <h1 class="text-center" style="color:black;"><b>IMAGE SEARCH</b>&nbsp;&nbsp;&nbsp;<a class="navbar-brand" href="">
+                             <img src="/images/logo6.jpg" style="height:40px;" ></a>
+	        </h1>
+        </div>
+        </center>
+    </div>
+    <div><br></br><br></br>
+    </div>
+	
+    <!--Upload file and search button-->
+    <center></center>	
+    <div id="main" class="container">
+        <table class="table" style="background: white;border: 1px solid beige;box-shadow: 3px 5px 15px 0px rgba(0, 0, 0, 0.2), 3px 5px 15px 0 rgba(0, 0, 0, 0.19);">          <!--表头-->
+            <tr style="background: lightgrey;"><td><b>Chose your file to upload</b></td><td><b></b></td></tr>
+            <tr><td><form method=post enctype=multipart/form-data>
+            <!--<input data-bind="value: title" type="text" id="inputTask" placeholder="Path to the image" style="width: 150px;">-->
+            <!--<input type="file" name="file" required />-->
+            <input type="file" name="file" id="imgOne" onchange="preImg(this.id,'photo');" required />
+             <!--Search button--><!--Click to start searching and displaying results based on uploaded files-->
+			<input type=submit value ="Search!" onclick="fun()">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img id="photo" src="" onerror= "this.src='/images/preimg8.jpg'" 
+            style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            height: 100px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-right: 5px;
+            padding-left: 5px;
+            border-left-width: 0px;
+            border-bottom-width: 0px;border-right-width: 0px; "/>
+            </form></td><td><b></b></td></tr>
+            <tr id="clearrow" style="display:none;"><td><a href=""><button id="clear" style="display:none;">Clear</button></a></td><td></td>
+            </tr>
+        </table>
+    </div>
+
+    <!--Tag button--><!--Click on the button that shows images of different tags in the search results-->
+    <div id="main" class="container">
+        <table class="table" style="background: white;border: 1px solid beige;box-shadow: 3px 5px 15px 0px rgba(0, 0, 0, 0.2), 3px 5px 15px 0 rgba(0, 0, 0, 0.19);">
+            <tr style="background: lightgrey;"><td><b>Tags</b></td><td><b></b></td></tr>
+            <tr id="tagrow">
+                <td>
+                    <!--favorite button--><!--Click to hide the search results and display the favorite pictures-->
+                    <button id="favorite" style= "width: 100px" onclick="favorite_fun()">favorite</button>&nbsp;
+                    <button id="all" style= "width: 100px" onclick="tag_fun('all')">all</button>&nbsp;
+                    <button id="animals" style= "width: 100px" onclick="tag_fun('animals')">animals</button>&nbsp;
+                    <button id="baby" style= "width: 100px" onclick="tag_fun('baby')">baby</button>&nbsp;
+                    <button id="bird" style= "width: 100px" onclick="tag_fun('bird')">bird</button>&nbsp;
+                    <button id="car" style= "width: 100px" onclick="tag_fun('car')">car</button>&nbsp;
+                    <button id="dog" style= "width: 100px" onclick="tag_fun('dog')">dog</button>&nbsp;
+                    <button id="female" style= "width: 100px" onclick="tag_fun('female')">female</button>&nbsp;
+                    <button id="flower" style= "width: 100px" onclick="tag_fun('flower')">flower</button>&nbsp;
+                    <button id="food" style= "width: 100px" onclick="tag_fun('food')">food</button>&nbsp;
+                    <button id="indoor" style= "width: 100px" onclick="tag_fun('indoor')">indoor</button>&nbsp;
+                    <button id="lake" style= "width: 100px" onclick="tag_fun('lake')">lake</button>&nbsp;
+                    <button id="male" style= "width: 100px" onclick="tag_fun('male')">male</button>&nbsp;
+                    <button id="night" style= "width: 100px" onclick="tag_fun('night')">night</button>&nbsp;
+                    <button id="people" style= "width: 100px" onclick="tag_fun('people')">people</button>&nbsp;
+                    <button id="plant_life" style= "width: 100px" onclick="tag_fun('plant_life')">plant_life</button>&nbsp;
+                    <button id="portrait" style= "width: 100px" onclick="tag_fun('portrait')">portrait</button>&nbsp;
+                    <button id="river" style= "width: 100px" onclick="tag_fun('river')">river</button>&nbsp;
+                    <button id="sea" style= "width: 100px" onclick="tag_fun('sea')">sea</button>&nbsp;
+                    <button id="sky" style= "width: 100px" onclick="tag_fun('sky')">sky</button>&nbsp;
+                    <button id="structures" style= "width: 100px" onclick="tag_fun('structures')">structures</button>&nbsp;
+                    <button id="sunset" style= "width: 100px" onclick="tag_fun('sunset')">sunset</button>&nbsp;
+                    <button id="transport" style= "width: 100px" onclick="tag_fun('transport')">transport</button>&nbsp;
+                    <button id="tree" style= "width: 100px" onclick="tag_fun('tree')">tree</button>&nbsp;
+                    <button id="water" style= "width: 100px" onclick="tag_fun('water')">water</button>&nbsp;
+                </td>
+            </tr>
+        </table>  
+    </div>
+
+    <!--Loading animation-->
+    <center>
+    <img id="load" src="/images/ajax-loader.gif" style="height:100px; display:none;" >
+    </center>
+
+    <!--Show search results-->
+    <div id="main" class="container">
+        <!--Show search results description-->
+        <div id="resultStats" style= "display:none;">
+                “Find 9 results”&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <!--Add to Favorites button-->
+                <!--After clicking, the selection box is displayed under each picture, and the button is replaced with the confirmation favorite button-->
+                <button id="addFavorite" style= "width: 150px" onclick="addFavorite_fun()">Add to favorites</button>
+                <!--Confirm collection button-->
+                <!--Click to add the selected picture to the favorites, pop up the collection success prompt box, hide the picture selection box, and replace the button with the Add to Favorites button-->
+                <button id="confirm" style= "width: 150px" onclick="confirm_fun()" >Confirm</button>
+        </div>
+        <!--Picture table-->
+        <table id="table" class="table" style="background: white; border: 1px ;display:none;" >
+            <!--Table style and picture style-->
+            <style>
+            .imageform{
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                width: 200px;
+                height: 200px;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                padding-right: 0px;
+                padding-left: 0px;
+                border-left-width: 1px;
+                border-bottom-width: 1px;border-right-width: 1px;background: white;
+            }
+            .image{
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                transition: 0.3s;
+                width: 385px;
+                height: 200px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-right: 5px;
+                padding-left: 5px;
+                border-left-width: 0px;
+                border-bottom-width: 0px;border-right-width: 0px; 
+            }
+            </style>
+            <!--Picture table body-->
+            <tbody>
+                    <tr><td class="imageform" >
+                            <img class="image" id="img0" src=""  alt="Noway">
+                            <!--checkbox，Show when you click Add to Favorites-->
+                            <input type="checkbox" id ="checkimg0" name="checkimg" value="img0" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img1" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg1" name="checkimg" value="img1" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img2" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg2" name="checkimg" value="img2" style="display:none; width:30px; height:30px;">
+                        </td>
+                    </tr>
+                    <tr><td class="imageform" >
+                            <img class="image" id="img3" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg3" name="checkimg" value="img3" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img4" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg4" name="checkimg" value="img4" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img5" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg5" name="checkimg" value="img5" style="display:none; width:30px; height:30px;">
+                        </td>
+                    </tr>
+                    <tr><td class="imageform" >
+                            <img class="image" id="img6" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg6" name="checkimg" value="img6" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img7" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg7" name="checkimg" value="img7" style="display:none; width:30px; height:30px;">
+                        </td>
+                        <td class="imageform" >
+                            <img class="image" id="img8" src="" alt="Noway">
+                            <input type="checkbox" id ="checkimg8" name="checkimg" value="img8" style="display:none; width:30px; height:30px;">
+                        </td>
+                    </tr>
+            </tbody>
+            </table>
+    </div>
+
+    <!--Show favorites content-->
+    <div id="div2" class="container" style= "display:none;">
+        <!--Delete favorite button-->
+        <!--After clicking, the selection box is displayed under each picture, and the button is replaced with the confirmation delete button-->
+        <button id="delete" style= "width: 100px;" onclick="delete_fun()">Delete</button>
+        <!--Confirm delete button-->
+        <!--After clicking, the selected picture will be deleted from the favorites, the delete success prompt box will pop up, the picture selection box will be hidden, and the button will be replaced with the delete favorite button-->
+        <button id="confirmdelete" style= "width: 100px; display:none;" onclick="confirmdelete_fun()">Confirm</button>
+        <!--Dynamically add image tables in div1-->
+        <center>
+        <div id="div1" class="container">
+        </div></center>
+    </div>
+
+
+
+    <!--js content-->
+    <script type="text/javascript">
+
+    function getFileUrl(sourceId) {
+        var url;
+        if (navigator.userAgent.indexOf("MSIE")>=1) { // IE
+            url = document.getElementById(sourceId).value;
+        } else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        } else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome
+            url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0));
+        }
+        return url;
+    }
+    function preImg(sourceId, targetId) { 
+        var url = getFileUrl(sourceId); 
+        var imgPre = document.getElementById(targetId); 
+        imgPre.src = url; 
+    }
+
+	function myFunction(){
+
+	document.getElementById("predictedResult").innerHTML= "";
+	$('#clear').hide();
+	}
+
+    //Show favorite function, bind with favorite button
+    function favorite_fun(){
+        $.ajax({
+      		 url: 'favorite',
+       		 type: 'POST',
+      		 cache: false,
+      		 contentType: false,
+      		 enctype: 'multipart/form-data',
+      		 processData: false,
+      		 success: function (response) {//Get the image file name in the favorites from the response
+                $('#div2').show();//Showcase your favorites
+                $('#table').hide();//Hide search results
+                $('#resultStats').hide();//Hide search results description
+                var str = response;
+                console.log(str);//Print the image file name in your favorites
+                var rows = str.length/3 + 1;
+                var cols = 3;
+                div1 = document.getElementById('div1');
+                //Dynamically add a favorite image table
+                var tab='<div id="favoriteStats">“There are '+ str.length +' favorites” </div>';
+                tab+='<table id = "favoritetable" class="table" style="background: white; border: 1px ;display:none;" >';
+                var number = 0;
+                for(var i=0;i<rows;i++){
+                    tab+='<tr>';
+                    for(var j=0;j<cols;j++){
+                        if(number < str.length){
+                        tab+='<td style= "box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;width: 200px;height: 200px;padding-top: 0px;padding-bottom: 0px;padding-right: 0px;padding-left: 0px;border-left-width: 1px;border-bottom-width: 1px;border-right-width: 1px;background: white;">'+(i+j)+'</td>';
+                        tab+='<img id= favoriteimg'+number+' src= favorite/'+str[number]+ ' alt = Noway style= "box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s; width: 290px;height: 200px;padding-top: 5px;padding-bottom: 5px;padding-right: 5px;padding-left: 5px;border-left-width: 0px;border-bottom-width: 0px;border-right-width: 0px;"></img>';
+                        tab+='<input type= checkbox id = checkfavoriteimg'+number+' name="checkimg2" value= favoriteimg'+number+' style= "display:none; width:30px; height:30px;">';
+                        }
+                        number ++;
+                    }
+                    tab+='</tr>';
+                }    
+                tab+='</table>';
+                div1.innerHTML=tab;
+            }  
+   		});
+    }
+
+     //Add a favorite function, bound to the Add to favorites button
+    function addFavorite_fun(){
+        $("#confirm").show();//Show confirm button
+        $("#addFavorite").hide();//Hide the Add to favorite button
+        //Show picture selection box
+        $("#checkimg0").show();
+        $("#checkimg1").show();
+        $("#checkimg2").show();
+        $("#checkimg3").show();
+        $("#checkimg4").show();
+        $("#checkimg5").show();
+        $("#checkimg6").show();
+        $("#checkimg7").show();
+        $("#checkimg8").show();
+    }
+    
+    //Confirm the collection function, bind to the Confirm collection button
+    function confirm_fun(){    
+        var checked = document.getElementsByName("checkimg");//Read the contents of the picture selection box according to the name
+        console.log(checked);//Print the read conten
+        var checkedData = [];//Store the file name of the selected picture picture
+        var j = 0;
+        for (var i = 0; i < checked.length; i++) {
+            if (checked[i].checked){//When the selection box is selected
+                console.log(checked[i].value);//Print the selected image corresponding to the value of the selection box, and print the id of the selected image
+                checkedData.push(document.getElementById(checked[i].value).src);//Get the image address according to the picture id, the address format is http://127.0.0.1:5000/result/im1428.jpg
+                
+                if(checkedData[j].indexOf("/")>0)//If the address contains a "/" sign, start the string from the last "/" sign +1.
+                    {checkedData[j]=checkedData[j].substring(checkedData[j].lastIndexOf("/")+1,checkedData[j].length);}
+                else
+                    {checkedData[j]=checkedData[j];}
+                j++;
+                checked[i].checked = false;//The status of the selection box is unchecked, otherwise the status of the selection box will not be refreshed after the final confirmation of the collection
+            }
+        }
+        console.log(checkedData)//Print the file name of the selected picture
+        console.log(JSON.stringify({checkedData}))//Print the result of checked data being jsonized       
+        $.ajax({
+      		 url: 'addFavorite',
+       		 type: 'POST',
+             data: JSON.stringify({checkedData}),//Transfer the "checkedData" json
+             dataType: 'json',
+             contentType: 'application/json; charset=UTF-8',//Transfer data in json format
+      		 success: function () {
+                if(j>0){
+                alert("Add to favorites successfully！");//Pop up Add to favorites successfully! Prompt box
+                }
+                $("#confirm").hide();//Hide Confirm Favorites button
+                $("#addFavorite").show();//Show Add to favorites button
+                //Hide picture selection box
+                $("#checkimg0").hide();
+                $("#checkimg1").hide();
+                $("#checkimg2").hide();
+                $("#checkimg3").hide();
+                $("#checkimg4").hide();
+                $("#checkimg5").hide();
+                $("#checkimg6").hide();
+                $("#checkimg7").hide();
+                $("#checkimg8").hide();
+      		 }
+   		});    
+    }
+    
+    //Delete favorite image function, bind with Delete button
+    function delete_fun(){
+        $("#delete").hide();//Hide the Delete button
+        $("#confirmdelete").show();//Show Confirm delete button
+        var checked = document.getElementsByName("checkimg2");//According to the name to read the content of the picture selection box, here is mainly to use the checked.length to get the number of pictures
+        //Show picture selection box
+        for (var i = 0; i < checked.length; i++)
+        {$("#checkfavoriteimg"+i).show();}
+    }
+
+    //Confirm delete function, bind with Confirm delete button
+    function confirmdelete_fun(){        
+        var checked = document.getElementsByName("checkimg2");//Read the contents of the picture selection box according to the name
+        console.log(checked)//Print the read content
+        var checkedData = [];//Store the file name of the selected picture picture
+        var j = 0;
+        for (var i = 0; i < checked.length; i++) {
+            $("#checkfavoriteimg"+i).hide();
+            if (checked[i].checked){//When the selection box is selected
+                console.log(checked[i].value);//Print the selected image corresponding to the value of the selection box, and print the id of the selected image
+                console.log(document.getElementById(checked[i].value).src);//Print the address of the selected image in the format of http://127.0.0.1:5000/result/im1428.jpg
+                checkedData.push(document.getElementById(checked[i].value).src);//Get the image address according to the picture id, the address format is http://127.0.0.1:5000/result/im1428.jpg
+
+                if(checkedData[j].indexOf("/")>0)//If the "/" is included, the string is intercepted starting from the last "/" +1
+                    {checkedData[j]=checkedData[j].substring(checkedData[j].lastIndexOf("/")+1,checkedData[j].length);}
+                else
+                    {checkedData[j]=checkedData[j];}
+                j++;
+                checked[i].checked = false;//The status of the selection box is unchecked, otherwise the status of the selection box will not be refreshed after the final confirmation of the collection
+            }
+        }
+        console.log(checkedData)//Print the file name of the selected picture
+        console.log(JSON.stringify({checkedData}))//Print the result of checked data being jsonized         
+        $.ajax({
+                url: 'deleteFavorite',
+                type: 'POST',
+                data: JSON.stringify({checkedData}),//Transfer the "checkedData" json
+                dataType: 'json',
+                contentType: 'application/json; charset=UTF-8',//Transfer data in json format
+                success: function () {
+                    if(j>0){
+                    alert("Delete images successfully！");//Pop up Delete images successfully! Prompt box
+                    }
+                    $("#delete").show();//Show Delete button
+                    $("#confirmdelete").hide();//Hide Confirm Delete button
+                    favorite_fun()//Show remaining images in favorites after deletion
+                }
+            });    
+    }                     
+    
+    //Tag selection function, binding to each tag button except favorite, passing arguments by str
+    function tag_fun(str){
+        $('#div2').hide();//Hide content from favorites
+        $('#load').show();//Display loading animation
+        $.ajax({
+      		 url: 'tag',
+       		 type: 'POST',
+      		 cache: false,
+      		 contentType: false,
+      		 enctype: 'multipart/form-data',
+      		 processData: false,
+      		 success: function (response) {//Response returns the tag of each image
+                $("#confirm").hide();//Hide the Confirm collection button
+                $("#addFavorite").show();//Show Add to favorites button
+                $('#table').show();//Display result table
+                $('#resultStats').show();//Display result statement
+                $('#load').hide();//Hidden loading animation
+                $('#clearrow').show();//Show clearrow button
+                if (str == 'all'){//If you choose all tag
+                    //Show all images
+                    $("#img0").show();
+                    $("#img1").show();
+                    $("#img2").show();
+                    $("#img3").show();
+                    $("#img4").show();
+                    $("#img5").show();
+                    $("#img6").show();
+                    $("#img7").show();
+                    $("#img8").show();
+                }
+                else{
+                    //If the tag of the image is not equal to the selected tag, hide it, otherwise display it
+                    if (response.image0 != str)
+                        {$("#img0").hide();}
+                    else
+                        {$("#img0").show();}
+                    if (response.image1 != str)
+                        {$("#img1").hide();}
+                    else
+                        {$("#img1").show();}
+                    if (response.image2 != str)
+                        {$("#img2").hide();}
+                    else
+                        {$("#img2").show();}
+                    if (response.image3 != str)
+                        {$("#img3").hide();}
+                    else
+                        {$("#img3").show();}
+                    if (response.image4 != str)
+                        {$("#img4").hide();}
+                    else
+                        {$("#img4").show();}
+                    if (response.image5 != str)
+                        {$("#img5").hide();}
+                    else
+                        {$("#img5").show();}
+                    if (response.image6 != str)
+                        {$("#img6").hide();}
+                    else
+                        {$("#img6").show();}
+                    if (response.image7 != str)
+                        {$("#img7").hide();}
+                    else
+                        {$("#img7").show();}
+                    if (response.image8 != str)
+                        {$("#img8").hide();}
+                    else
+                        {$("#img8").show();}
+                }
+      		}
+   		});
+    }
+    
+    //Search function, bound to the Search button
+    function fun(){
+        $('#div2').hide();//Hide favorites content
+		$('#load').show();//Display loading animation
+        $("#confirm").hide();//Hide Confirm Favorites button
+        $("#addFavorite").show();//Show Add to favorites button   
+
+   		$("form").submit(function(evt){	  
+            evt.preventDefault();
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: 'imgUpload',
+                type: 'POST',
+                data: formData,
+                //async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                
+                success: function (response) {//Response returns the searched image path
+                    $('#load').hide();//Hidden loading animation
+                    $('#clearrow').show();//Show Clear button
+                    //Show searched images
+                    $("#img0").show();
+                    $("#img1").show();
+                    $("#img2").show();
+                    $("#img3").show();
+                    $("#img4").show();
+                    $("#img5").show();
+                    $("#img6").show();
+                    $("#img7").show();
+                    $("#img8").show();
+                    //Assign values ​​to each image path
+                    document.getElementById("img0").src = response.image0;
+                    console.log(response.image0);
+                    console.log(document.getElementById("img0").src);
+                    document.getElementById("img1").src = response.image1;
+                    document.getElementById("img2").src = response.image2;
+                    document.getElementById("img3").src = response.image3;
+                    document.getElementById("img4").src = response.image4;
+                    document.getElementById("img5").src = response.image5;
+                    document.getElementById("img6").src = response.image6;
+                    document.getElementById("img7").src = response.image7;
+                    document.getElementById("img8").src = response.image8;
+                    $('#table').show();//Display picture table
+                    $('#resultStats').show();//Display result statement
+                    $('#clear').show();//Show Clear button
+                }
+            });
+        return false;
+        })
+    }
+    </script>
+</body>
+</html>
